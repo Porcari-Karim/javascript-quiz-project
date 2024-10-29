@@ -39,9 +39,13 @@ class Quiz {
         return this.questions
     }
 
-    averageDifficulty() {
-        return this.questions.reduce((accu,question) => accu + question.difficulty,0) / this.questions.length
-    }
+    // filterQuestionsByDifficulty = (difficulty) => this.questions = difficulty in [1,2,3] ? this.questions.filter(question => question.difficulty === difficulty) : this.questions;
+
+
+    averageDifficulty = () => this.questions.reduce((accu,question) => accu + question.difficulty,0) / this.questions.length;
+
+
+
 
 
 
