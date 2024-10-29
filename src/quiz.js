@@ -30,4 +30,19 @@ class Quiz {
 
     // 6. hasEnded()
     hasEnded = () => this.currentQuestionIndex === this.questions.length;
+
+    // Day 2 
+    filterQuestionsByDifficulty(difficulty){
+        if ([1,2,3].includes( difficulty)){
+            this.questions = this.questions.filter(onequestion => onequestion.difficulty === difficulty)
+        } 
+        return this.questions
+    }
+
+    averageDifficulty() {
+        return this.questions.reduce((accu,question) => accu + question.difficulty,0) / this.questions.length
+    }
+
+
+
 }
