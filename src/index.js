@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const choiceContainer = document.querySelector("#choices");
   const nextButton = document.querySelector("#nextButton");
   const restartButton = document.querySelector('#restartButton');
+  const timerBarElement = document.querySelector('#timerBar');
 
   // End view elements
   const resultContainer = document.querySelector("#result");
@@ -61,6 +62,26 @@ document.addEventListener("DOMContentLoaded", () => {
   /************  TIMER  ************/
 
   let timer;
+
+  const convertRemainingTimeToStr = (remainingTimeInSeconds) => {
+    const minutes = Math.floor(remainingTimeInSeconds / 60).toString().padStart(2, "0");
+    const seconds = (remainingTimeInSeconds % 60).toString().padStart(2, "0");
+    return `${minutes}:${seconds}`
+  }
+
+  const launchTimer = () => {
+    timer = setInterval(() =>{
+      quiz.timeRemaining--;
+      timeRemainingContainer.innerText = convertRemainingTimeToStr(quiz.timeRemaining);
+      const remainingTimeInPercentage = quiz.timeRemaining / quiz.timeLimit * 100;
+      timerBarElement.style.width = `${remainingTimeInPercentage}%`;
+      if(quiz.timeRemaining === 0){
+        showResults();
+      }
+    }, 1000)
+  }
+
+  launchTimer();
 
 
   /************  EVENT LISTENERS  ************/
@@ -179,14 +200,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     quiz.currentQuestionIndex = 0;
     quiz.correctAnswers = 0;
+    quiz.timeRemaining = quiz.timeLimit;
     quiz.shuffleQuestions();
+
+    timeRemainingContainer.innerText = convertRemainingTimeToStr(quiz.timeRemaining);
     showQuestion();
+    launchTimer();
   }
 
 
 
 
   function showResults() {
+    clearInterval(timer);
 
     // YOUR CODE HERE:
     //
